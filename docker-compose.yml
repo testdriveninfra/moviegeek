@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  fe-movie-geek:
+    image: ambientum/node:latest
+    links:
+      - broker
+    depends_on:
+       - broker
+    ports:
+      - "3000:3000"
+
+  broker:
+    image: library/eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"
