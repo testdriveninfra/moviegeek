@@ -5,13 +5,15 @@ import Movie from "../movie/Movie";
 import spinner from "../../ajax-loader.gif";
 import Search from "../search/Search";
 
-const MOVIE_API_URL = "http://localhost:3001";
+const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apiKey=c3a89935";
 
 const initialState = {
   loading: true,
   movies: [],
   errorMessage: null
 };
+
+
 //For complex logic, use reducer instead useState. It optimizes
 //performance for components that trigger deep updates
 //because you can pass dispatch down instead of callbacks
@@ -44,7 +46,7 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    fetch(MOVIE_API_URL+"/api/v1/movies/iron")
+    fetch(MOVIE_API_URL)
       .then(response => response.json())
       .then(jsonResponse => {
         dispatch({
@@ -64,7 +66,7 @@ const App = () => {
       type: "SEARCH_MOVIES_REQUEST"
     });
     //TODO: Move api call to service
-    fetch(MOVIE_API_URL+`/api/v1/movies/${searchValue}`)
+    fetch(`https://www.omdbapi.com/?s=${searchValue}&apiKey=c3a89935`)
       .then(response => response.json())
       .then(jsonResponse => {
         if (jsonResponse.Response === "True") {
