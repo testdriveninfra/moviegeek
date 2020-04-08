@@ -8,6 +8,19 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn
+
+  build_project:
+    docker:
+      - image: circleci/node:10.14.0
+    working_directory: ~/workspace
+
+    steps:
+      - run:
+          name: Build Project
+          command: yarn build
 
 workflows:
   version: 2
@@ -15,3 +28,4 @@ workflows:
   build:
     jobs:
       - install_deps
+      - build_project
