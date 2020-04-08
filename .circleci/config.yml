@@ -1,0 +1,39 @@
+version: 2
+
+jobs:
+  install_deps:
+    docker:
+      - image: circleci/node:10.14.0
+    working_directory: ~/workspace
+
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn
+      - persist_to_workspace:
+          root: ~/workspace
+          paths:
+            - ./
+          
+  build_project:
+    docker:
+      - image: circleci/node:10.14.0
+    working_directory: ~/workspace
+
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - run:
+          name: Build Project
+          command: yarn build
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - install_deps
+      - build_project:
+          requires:
+            - install_deps
