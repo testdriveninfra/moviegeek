@@ -7,7 +7,8 @@ jobs:
     working_directory: ~/workspace
 
     steps:
-      - checkout
+      - checkout - attach_workspace:
+          at: ~/workspace
       - run:
           name: Install Dependencies
           command: yarn
@@ -34,4 +35,6 @@ workflows:
   build:
     jobs:
       - install_deps
-      - build_project
+      - build_project:
+          requires:
+            - install_deps
